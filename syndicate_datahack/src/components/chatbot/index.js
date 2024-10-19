@@ -1,47 +1,38 @@
 // src/components/chatbot/index.js
 import React, { useState } from 'react';
-import BubbleIcon from './BubbleIcon';
+import BubbleIcon from './Bubble';
 
 const Chatbot = () => {
-  const [isAnimating, setIsAnimating] = useState(false);
-  const [text, setText] = useState('');
-  const fullText = 'Syndicate';
+  const [isChatVisible, setIsChatVisible] = useState(false);
 
   const handleBubbleClick = () => {
-    setIsAnimating(true);
-    setText(''); // Reset text each time
-    moveBubble(); // Start moving the bubble
-    typeText(); // Start typing text
-  };
-
-  const moveBubble = () => {
-    const bubble = document.getElementById('bubble');
-    if (bubble) {
-      bubble.style.transition = 'transform 1s ease';
-      bubble.style.transform = 'translate(-50vw, -50vh)'; // Move to center
-    }
-  };
-
-  const typeText = () => {
-    let index = 0;
-    const interval = setInterval(() => {
-      if (index < fullText.length) {
-        setText((prev) => prev + fullText[index]);
-        index++;
-      } else {
-        clearInterval(interval);
-      }
-    }, 500); // Adjust typing speed here
+    setIsChatVisible((prev) => !prev); // Toggle chatbot visibility
   };
 
   return (
     <div>
-      <div id="bubble" style={{ position: 'fixed', bottom: '1rem', right: '1rem' }}>
-        <BubbleIcon onClick={handleBubbleClick} />
-      </div>
-      {isAnimating && (
-        <div style={{ position: 'fixed', top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}>
-          {text}
+      <BubbleIcon onClick={handleBubbleClick} />
+      {isChatVisible && (
+        <div style={{ 
+          position: 'fixed', 
+          bottom: '80px', 
+          right: '10px', 
+          backgroundColor: 'white', 
+          padding: '1rem', 
+          borderRadius: '8px', 
+          boxShadow: '0 2px 10px rgba(0,0,0,0.3)', 
+          width: '300px' 
+        }}>
+          <h3 style={{ margin: '0 0 10px 0' }}>Chatbot</h3>
+          <div style={{ maxHeight: '150px', overflowY: 'auto', marginBottom: '10px', border: '1px solid #ccc', borderRadius: '4px', padding: '5px' }}>
+            {/* Simple chat log */}
+            <div>User: Hello!</div>
+            <div>Chatbot: Hi there! How can I help you today?</div>
+          </div>
+          <input type="text" placeholder="Type a message..." style={{ width: '100%', padding: '0.5rem', borderRadius: '4px', border: '1px solid #ccc' }} />
+          <button style={{ width: '100%', marginTop: '0.5rem', padding: '0.5rem', backgroundColor: '#007bff', color: 'white', border: 'none', borderRadius: '4px' }}>
+            Send
+          </button>
         </div>
       )}
     </div>
