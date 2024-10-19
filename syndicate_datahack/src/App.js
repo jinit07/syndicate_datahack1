@@ -1,8 +1,9 @@
-// src/App.js
 import React, { useEffect, useState } from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import ThemeToggleButton from './components/ThemeToggleButton';
 import Sidebar from './components/Sidebar/Sidebar';
 import Chatbot from './components/chatbot'; // Import the chatbot index
+import Dashboard from './components/Dashboard'; // Import the Dashboard component
 
 const App = () => {
   const storageKey = 'theme-preference';
@@ -25,18 +26,23 @@ const App = () => {
   }, [theme]);
 
   return (
-    <div>
-      <Sidebar isDarkMode={theme === 'dark'} />
-      <ThemeToggleButton 
-        toggleTheme={toggleTheme} 
-        isDarkMode={theme === 'dark'} 
-        style={{ position: 'fixed', top: '1rem', right: '1rem', zIndex: 1000 }} 
-      />
-      <Chatbot /> {/* Render the chatbot here */}
-      <div style={{ marginLeft: '14rem', padding: '2rem' }}>
-        {/* Other components can go here */}
+    <Router>
+      <div style={{ display: 'flex', height: '100vh' }}> {/* Use flex to allow full height */}
+        <Sidebar isDarkMode={theme === 'dark'} />
+        <div style={{ flexGrow: 1, padding: '2rem', overflowY: 'auto' }}> {/* Allow this div to grow and overflow */}
+          <ThemeToggleButton 
+            toggleTheme={toggleTheme} 
+            isDarkMode={theme === 'dark'} 
+            style={{ position: 'fixed', top: '1rem', right: '1rem', zIndex: 1000 }} 
+          />
+          <Chatbot /> {/* Render the chatbot here */}
+          <Routes>
+            <Route path="/dashboard" element={<Dashboard />} />
+            {/* Add more routes here as needed */}
+          </Routes>
+        </div>
       </div>
-    </div>
+    </Router>
   );
 };
 

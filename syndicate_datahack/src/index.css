@@ -11,3 +11,15 @@ body.light {
   background-color: #ffffff;
   color: #1a202c;
 }
+/* Global styles */
+:root {
+  --bg-color: white;
+  --border-color: lightgray;
+  --text-color: black;
+}
+
+[data-theme='dark'] {
+  --bg-color: #333;
+  --border-color: #444;
+  --text-color: white;
+}

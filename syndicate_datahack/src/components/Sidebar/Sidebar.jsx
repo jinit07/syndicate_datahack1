@@ -1,16 +1,17 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const Sidebar = ({ isDarkMode }) => {
   const styles = {
     sideBar: {
-      width: '14rem', // Reduced width
+      width: '14rem',
       height: '100%',
       padding: '2.1rem 1.2rem',
       backgroundColor: isDarkMode ? '#17171e' : '#f8f9fa',
       position: 'fixed',
       transition: 'all 0.5s ease',
       top: 0,
-      left: 0, // Align to the left edge
+      left: 0,
       color: isDarkMode ? '#FFD700' : '#333',
     },
     logoNameWrapper: {
@@ -64,10 +65,12 @@ const Sidebar = ({ isDarkMode }) => {
         </button>
       </div>
 
-      <div style={styles.dashboardItem}>
-        <i className="bx bxs-dashboard"></i>
-        <span style={{ marginLeft: '0.5rem' }}>Dashboard</span>
-      </div>
+      <Link to="/dashboard" style={{ textDecoration: 'none', color: 'inherit' }}>
+        <div style={styles.dashboardItem}>
+          <i className="bx bxs-dashboard"></i>
+          <span style={{ marginLeft: '0.5rem' }}>Dashboard</span>
+        </div>
+      </Link>
     </div>
   );
 };

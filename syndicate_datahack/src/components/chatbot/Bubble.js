@@ -1,4 +1,3 @@
-// src/components/chatbot/BubbleIcon.js
 import React from 'react';
 
 const Bubble = ({ onClick }) => {
@@ -6,8 +5,8 @@ const Bubble = ({ onClick }) => {
 
   const styles = {
     image: {
-      width: '80px', // Adjusted to match previous bubble size
-      height: '80px', // Adjusted to match previous bubble size
+      width: '80px',
+      height: '80px',
       borderRadius: '50%',
       position: 'fixed',
       bottom: '1rem',
