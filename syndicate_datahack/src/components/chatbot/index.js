@@ -5,9 +5,15 @@ const Chatbot = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [input, setInput] = useState('');
   const [messages, setMessages] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleToggle = () => {
     setIsOpen(!isOpen);
+    if (!isOpen) {
+      setMessages([
+        { text: "Hello! I'm here to help. Please enter your prompt.", sender: 'bot' },
+      ]);
+    }
   };
 
   const handleInputChange = (e) => {
@@ -19,24 +25,37 @@ const Chatbot = () => {
 
     const userMessage = { text: input, sender: 'user' };
     setMessages((prevMessages) => [...prevMessages, userMessage]);
+    setIsLoading(true);
+
+    console.log('Sending prompt to backend:', input); // Log the input being sent
 
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/generate-query`, {
+      const apiUrl = 'http://localhost:5000/generate-query'; // Hardcoded API URL
+      const response = await fetch(apiUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({ prompt: input }),
       });
-      const data = await response.json();
 
-      const botMessage = { text: data.query, sender: 'bot' };
-      setMessages((prevMessages) => [...prevMessages, userMessage, botMessage]);
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      console.log('Response from backend:', data); // Log the generated SQL query
+
+      const sqlQuery = `SELECT * FROM ${data.table_name} WHERE ${data.condition}`;
+      setMessages((prevMessages) => [...prevMessages, { text: sqlQuery, sender: 'bot' }]);
     } catch (error) {
       console.error('Error generating SQL query:', error);
+      const errorMessage = 'Failed to generate SQL query. Please try again.';
+      setMessages((prevMessages) => [...prevMessages, { text: errorMessage, sender: 'bot' }]);
+    } finally {
+      setIsLoading(false); // Disable input while loading
+      setInput(''); // Clear input after sending
     }
-
-    setInput(''); // Clear the input field
   };
 
   return (
@@ -62,19 +81,19 @@ const Chatbot = () => {
               value={input}
               onChange={handleInputChange}
               placeholder="Type your message..."
+              disabled={isLoading} // Disable input while loading
             />
-            <button onClick={handleSend}>Send</button>
+            <button onClick={handleSend} disabled={isLoading}>Send</button>
           </div>
         </div>
       )}
       <style jsx>{`
         .chatbot-container {
           position: fixed;
-          top: 0; /* Start from the top */
-          right: 0; /* Align to the right */
-          width: calc(100% - 14rem); /* Full width minus sidebar width */
-          height: 100vh; /* Full height */
-          background: var(--bg-color);
+          top: 0;
+          right: 0;
+          width: calc(100% - 16.5rem);
+          height: 100vh;
           border-left: 1px solid var(--border-color);
           display: flex;
           flex-direction: column;
@@ -92,24 +111,27 @@ const Chatbot = () => {
           margin-bottom: 10px;
         }
         .message-icon {
-          width: 30px;
-          height: 30px;
+          width: 40px;
+          height: 40px;
           margin-right: 10px;
         }
         .message-text {
-          padding: 5px 10px;
-          border-radius: 5px;
-          max-width: 70%; /* Limit the message width */
+          padding: 10px 15px;
+          border-radius: 8px;
+          max-width: 70%;
+          font-size: 1.2rem;
+          color: black;
+          background-color: #fff;
         }
         .user .message-text {
-          background-color: #d1e7dd; /* User message background */
-          color: #0f5132; /* User message text color */
-          align-self: flex-end; /* Align user messages to the right */
+          background-color: #d1e7dd;
+          color: black;
+          align-self: flex-start;
         }
         .bot .message-text {
-          background-color: #f8d7da; /* Bot message background */
-          color: #721c24; /* Bot message text color */
-          align-self: flex-start; /* Align bot messages to the left */
+          background-color: #f8d7da;
+          color: black;
+          align-self: flex-end;
         }
         .input-container {
           display: flex;

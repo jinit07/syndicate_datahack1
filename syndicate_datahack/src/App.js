@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom'; // Import Navigate
 import ThemeToggleButton from './components/ThemeToggleButton';
 import Sidebar from './components/Sidebar/Sidebar';
 import Chatbot from './components/chatbot'; // Import the chatbot index
@@ -27,9 +27,9 @@ const App = () => {
 
   return (
     <Router>
-      <div style={{ display: 'flex', height: '100vh' }}> {/* Use flex to allow full height */}
+      <div style={{ display: 'flex', height: '100vh' }}>
         <Sidebar isDarkMode={theme === 'dark'} />
-        <div style={{ flexGrow: 1, padding: '2rem', overflowY: 'auto' }}> {/* Allow this div to grow and overflow */}
+        <div style={{ flexGrow: 1, padding: '2rem', overflowY: 'auto' }}>
           <ThemeToggleButton 
             toggleTheme={toggleTheme} 
             isDarkMode={theme === 'dark'} 
@@ -37,6 +37,7 @@ const App = () => {
           />
           <Chatbot /> {/* Render the chatbot here */}
           <Routes>
+            <Route path="/" element={<Navigate to="/dashboard" />} /> {/* Redirect from root to dashboard */}
             <Route path="/dashboard" element={<Dashboard />} />
             {/* Add more routes here as needed */}
           </Routes>

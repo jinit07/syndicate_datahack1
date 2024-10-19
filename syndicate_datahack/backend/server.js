@@ -1,35 +1,52 @@
-const express = require('express');
+const http = require('http');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const axios = require('axios'); // Assuming you're using axios to communicate with your LLM
+const express = require('express');
 
 const app = express();
+const PORT = process.env.PORT || 5000;
+
 app.use(cors());
 app.use(bodyParser.json());
 
-const generateSQL = async (prompt) => {
-    const response = await axios.post('https://api.googleapis.com/v1/gemini/generate', {
-        prompt: `Generate an SQL query for: ${prompt}`,
-    }, {
-        headers: {
-            'Authorization': `Bearer AIzaSyD9HiJ3ntkhWbPIXl_vNz7f3hOTBI-ZFOE`,
-            'Content-Type': 'application/json',
-        }
-    });
-    return response.data;
-};
-
+// Define endpoint for frontend to request SQL generation
 app.post('/generate-query', async (req, res) => {
+    const { prompt } = req.body;
+
     try {
-        const { prompt } = req.body;
-        const sqlQuery = await generateSQL(prompt);
+        // Make a POST request to the LLaMA API to generate an SQL query
+        const response = await fetch('https://api.llama.com/v1/completions', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer YOUR_API_KEY', // Replace with your actual API key
+            },
+            body: JSON.stringify({
+                model: 'sql',
+                prompt: `Generate an SQL query for: ${prompt}`,
+                max_tokens: 150, // Adjust as needed
+                temperature: 0.7, // Adjust for randomness
+            }),
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        const sqlQuery = data.choices[0].text.trim(); // Adjust based on the response structure
+
+        if (!sqlQuery) {
+            throw new Error("The generated query is not valid.");
+        }
+
+        console.log('Successfully generated SQL query:', sqlQuery);
         res.json({ query: sqlQuery });
     } catch (error) {
-        res.status(500).json({ error: 'Error generating SQL query' });
+        console.error('Error in /generate-query:', error);
+        res.status(500).json({ error: `Error generating SQL query: ${error.message}` });
     }
 });
-
-const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });

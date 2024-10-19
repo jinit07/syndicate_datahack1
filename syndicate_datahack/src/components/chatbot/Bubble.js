@@ -1,28 +1,24 @@
 import React from 'react';
 
 const Bubble = ({ onClick }) => {
-  const bubbleImage = `${process.env.PUBLIC_URL}/Boy-icon-2.png`; // Correct path for the image
-
-  const styles = {
-    image: {
-      width: '80px',
-      height: '80px',
-      borderRadius: '50%',
-      position: 'fixed',
-      bottom: '1rem',
-      right: '1rem',
-      zIndex: 1000,
-      cursor: 'pointer',
-    },
-  };
-
   return (
-    <img
-      src={bubbleImage}
-      alt="Chatbot"
-      style={styles.image}
-      onClick={onClick}
-    />
+    <div onClick={onClick} style={{
+      position: 'fixed',
+      bottom: '20px',
+      right: '20px',
+      width: '60px',
+      height: '60px',
+      borderRadius: '50%',
+      backgroundColor: '#007bff',
+      color: 'white',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      cursor: 'pointer',
+      boxShadow: '0 4px 10px rgba(0,0,0,0.3)',
+    }}>
+      💬
+    </div>
   );
 };
 
