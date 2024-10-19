@@ -1,6 +1,8 @@
+// src/App.js
 import React, { useEffect, useState } from 'react';
 import ThemeToggleButton from './components/ThemeToggleButton';
 import Sidebar from './components/Sidebar/Sidebar';
+import Chatbot from './components/chatbot'; // Import the chatbot index
 
 const App = () => {
   const storageKey = 'theme-preference';
@@ -28,10 +30,11 @@ const App = () => {
       <ThemeToggleButton 
         toggleTheme={toggleTheme} 
         isDarkMode={theme === 'dark'} 
-        style={{ position: 'fixed', top: '1rem', right: '1rem', zIndex: 1000 }} // Adjusted to top right
+        style={{ position: 'fixed', top: '1rem', right: '1rem', zIndex: 1000 }} 
       />
+      <Chatbot /> {/* Render the chatbot here */}
       <div style={{ marginLeft: '14rem', padding: '2rem' }}>
-        {/* Other components go here */}
+        {/* Other components can go here */}
       </div>
     </div>
   );
