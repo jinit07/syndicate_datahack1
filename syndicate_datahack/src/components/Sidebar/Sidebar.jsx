@@ -3,19 +3,20 @@ import React from 'react';
 const Sidebar = ({ isDarkMode }) => {
   const styles = {
     sideBar: {
-      width: '23.2rem',
+      width: '14rem', // Reduced width
       height: '100%',
       padding: '2.1rem 1.2rem',
-      backgroundColor: isDarkMode ? '#17171e' : '#f8f9fa', // Dark or light background
+      backgroundColor: isDarkMode ? '#17171e' : '#f8f9fa',
       position: 'fixed',
       transition: 'all 0.5s ease',
       top: 0,
-      color: isDarkMode ? '#FFD700' : '#333', // Text color changes based on theme
+      left: 0, // Align to the left edge
+      color: isDarkMode ? '#FFD700' : '#333',
     },
     logoNameWrapper: {
       marginBottom: '2.1rem',
       display: 'flex',
-      fontSize: '1.5rem', // Increased font size
+      fontSize: '1.5rem',
       alignItems: 'center',
     },
     logoName: {
@@ -23,14 +24,14 @@ const Sidebar = ({ isDarkMode }) => {
       alignItems: 'center',
     },
     logo: {
-      width: '50px', // Adjust logo size
+      width: '50px',
       height: 'auto',
     },
     logoNameText: {
       marginLeft: '0.9rem',
       whiteSpace: 'nowrap',
-      fontWeight: 'bold', // Make text bold
-      color: isDarkMode ? '#FFD700' : '#333', // Shiny gold or dark text
+      fontWeight: 'bold',
+      color: isDarkMode ? '#FFD700' : '#333',
     },
     logoNameButton: {
       marginLeft: 'auto',
@@ -41,23 +42,18 @@ const Sidebar = ({ isDarkMode }) => {
     },
     dashboardItem: {
       padding: '1rem 0',
-      fontSize: '1.5rem', // Increased font size
+      fontSize: '1.5rem',
       cursor: 'pointer',
-      color: isDarkMode ? '#b5b5be' : '#666', // Change color based on theme
+      color: isDarkMode ? '#b5b5be' : '#666',
     },
   };
 
-  const handleSidebarToggle = () => {
-    const sideBar = document.querySelector('.side-bar');
-    sideBar.classList.toggle('collapse');
-  };
-
   return (
-    <div className="side-bar" style={styles.sideBar} onClick={handleSidebarToggle}>
+    <div className="side-bar" style={styles.sideBar}>
       <div style={styles.logoNameWrapper}>
         <div style={styles.logoName}>
           <img
-            src={`${process.env.PUBLIC_URL}/Syndicate Logo.png`} // Use this if logo is in public folder
+            src={`${process.env.PUBLIC_URL}/Syndicate Logo.png`}
             style={styles.logo}
             alt="logo app"
           />

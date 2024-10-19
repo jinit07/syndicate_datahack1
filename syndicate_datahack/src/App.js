@@ -3,26 +3,34 @@ import ThemeToggleButton from './components/ThemeToggleButton';
 import Sidebar from './components/Sidebar/Sidebar';
 
 const App = () => {
-  const [isDarkMode, setIsDarkMode] = useState(() => {
-    return localStorage.getItem('theme-preference') === 'dark';
-  });
+  const storageKey = 'theme-preference';
+
+  const getColorPreference = () => {
+    return localStorage.getItem(storageKey) === 'dark' ? 'dark' : 'light';
+  };
+
+  const [theme, setTheme] = useState(getColorPreference());
 
   const toggleTheme = () => {
-    const newTheme = !isDarkMode;
-    setIsDarkMode(newTheme);
-    localStorage.setItem('theme-preference', newTheme ? 'dark' : 'light');
-    document.body.classList.toggle('dark', newTheme);
+    const newTheme = theme === 'dark' ? 'light' : 'dark';
+    setTheme(newTheme);
+    localStorage.setItem(storageKey, newTheme);
   };
 
   useEffect(() => {
-    document.body.classList.toggle('dark', isDarkMode);
-  }, [isDarkMode]);
+    document.body.classList.toggle('dark', theme === 'dark');
+    document.firstElementChild.setAttribute('data-theme', theme);
+  }, [theme]);
 
   return (
     <div>
-      <Sidebar isDarkMode={isDarkMode} /> {/* Pass the theme state here */}
-      <div style={{ marginLeft: '23.2rem', padding: '2rem' }}>
-        <ThemeToggleButton toggleTheme={toggleTheme} isDarkMode={isDarkMode} />
+      <Sidebar isDarkMode={theme === 'dark'} />
+      <ThemeToggleButton 
+        toggleTheme={toggleTheme} 
+        isDarkMode={theme === 'dark'} 
+        style={{ position: 'fixed', top: '1rem', right: '1rem', zIndex: 1000 }} // Adjusted to top right
+      />
+      <div style={{ marginLeft: '14rem', padding: '2rem' }}>
         {/* Other components go here */}
       </div>
     </div>
