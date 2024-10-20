@@ -4,15 +4,16 @@ import { Link } from 'react-router-dom';
 const Sidebar = ({ isDarkMode }) => {
   const styles = {
     sideBar: {
-      width: '14rem',
+      width: '14rem', // Original width
       height: '100%',
       padding: '2.1rem 1.2rem',
-      backgroundColor: isDarkMode ? '#17171e' : '#dcdcdc', // Brighter silver color
+      backgroundColor: isDarkMode ? '#1E1E78' : '#f0f0f0', // Navy blue or light background
       position: 'fixed',
       transition: 'all 0.5s ease',
       top: 0,
       left: 0,
       color: isDarkMode ? '#FFD700' : '#333',
+      fontFamily: 'Arial, sans-serif', // Font remains the same
     },
     logoNameWrapper: {
       marginBottom: '2.1rem',

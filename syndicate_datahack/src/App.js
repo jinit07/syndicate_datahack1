@@ -4,6 +4,7 @@ import ThemeToggleButton from './components/ThemeToggleButton';
 import Sidebar from './components/Sidebar/Sidebar';
 import Chatbot from './components/chatbot'; // Import the chatbot index
 import Dashboard from './components/Dashboard'; // Import the Dashboard component
+import MySales from './components/Mysales'; // Import the MySales component
 
 const App = () => {
   const storageKey = 'theme-preference';
@@ -40,6 +41,7 @@ const App = () => {
           <Routes>
             <Route path="/" element={<Navigate to="/dashboard" />} /> {/* Redirect from root to dashboard */}
             <Route path="/dashboard" element={!isChatbotOpen ? <Dashboard /> : null} /> {/* Conditionally render Dashboard */}
+            <Route path="/mysales" element={<MySales />} /> {/* Add MySales route */}
             {/* Add more routes here as needed */}
           </Routes>
         </div>
