@@ -7,7 +7,7 @@ const Sidebar = ({ isDarkMode }) => {
       width: '14rem',
       height: '100%',
       padding: '2.1rem 1.2rem',
-      backgroundColor: isDarkMode ? '#17171e' : '#f8f9fa',
+      backgroundColor: isDarkMode ? '#17171e' : '#dcdcdc', // Brighter silver color
       position: 'fixed',
       transition: 'all 0.5s ease',
       top: 0,
@@ -47,6 +47,12 @@ const Sidebar = ({ isDarkMode }) => {
       cursor: 'pointer',
       color: isDarkMode ? '#b5b5be' : '#666',
     },
+    mySalesItem: {
+      padding: '1rem 0',
+      fontSize: '1.5rem',
+      cursor: 'pointer',
+      color: isDarkMode ? '#b5b5be' : '#666',
+    },
   };
 
   return (
@@ -69,6 +75,13 @@ const Sidebar = ({ isDarkMode }) => {
         <div style={styles.dashboardItem}>
           <i className="bx bxs-dashboard"></i>
           <span style={{ marginLeft: '0.5rem' }}>Dashboard</span>
+        </div>
+      </Link>
+
+      <Link to="/mysales" style={{ textDecoration: 'none', color: 'inherit' }}>
+        <div style={styles.mySalesItem}>
+          <i className="bx bxs-cart"></i>
+          <span style={{ marginLeft: '0.5rem' }}>My Sales</span>
         </div>
       </Link>
     </div>
